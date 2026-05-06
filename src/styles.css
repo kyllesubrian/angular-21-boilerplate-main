@@ -1,1 +1,265 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  color-scheme: light;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: #f3f6fb;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: #eef2f7;
+}
+
+.app-container {
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+.navbar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.navbar .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.navbar .nav-link.active,
+.navbar .nav-link:hover {
+  color: #ffffff;
+}
+
+.page-hero {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.hero-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+}
+
+.auth-page {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.auth-card {
+  border: none;
+  border-radius: 1.25rem;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.12);
+}
+
+.auth-card .card-body {
+  padding: 2.5rem;
+}
+
+.auth-card .card-body h2 {
+  font-weight: 700;
+}
+
+.auth-card .form-control {
+  border-radius: 0.75rem;
+}
+
+.btn-primary {
+  border-radius: 0.75rem;
+}
+
+.text-muted {
+  color: #6b7280 !important;
+}
+
+@media (max-width: 767px) {
+  .auth-card {
+    margin: 0 1rem;
+  }
+}
+
+.app-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+}
+
+.page-content {
+  padding: 1.5rem 0;
+}
+
+.auth-page {
+  min-height: calc(100vh - 84px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+.login-container,
+.register-box {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.page-hero {
+  padding-top: 1.5rem;
+  padding-bottom: 2.5rem;
+}
+
+/* Login/register page styles */
+.login-container,
+.register-box {
+  max-width: 480px;
+  margin: 3rem auto;
+  background: #ffffff;
+  border-radius: 1.25rem;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.12);
+  padding: 2rem;
+}
+
+.login-header,
+.register-header {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.login-header h2,
+.register-header h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.9rem;
+}
+
+.login-header p,
+.register-header p {
+  color: #6b7280;
+  margin: 0;
+}
+
+.login-form .input-group,
+.register-form .form-field {
+  margin-bottom: 1.25rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.form-field label,
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.85rem;
+  transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.error-message {
+  margin-top: 0.5rem;
+  color: #dc2626;
+  font-size: 0.9rem;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  color: #374151;
+}
+
+.checkbox-group input {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.btn-login,
+.btn-register,
+.login-btn {
+  width: 100%;
+  padding: 0.95rem 1.25rem;
+  border-radius: 0.85rem;
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn-login:hover,
+.btn-register:hover,
+.login-btn:hover {
+  background: #1d4ed8;
+}
+
+.login-box,
+.login-container,
+.register-box {
+  max-width: 480px;
+  margin: 3rem auto;
+  background: #ffffff;
+  border-radius: 1.25rem;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.12);
+  padding: 2rem;
+}
+
+.login-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.login-separator {
+  color: #9ca3af;
+  font-size: 1.1rem;
+}
+
+.simple-register h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.simple-links {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.simple-links a,
+.login-links a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.links {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.links a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+@media (max-width: 767px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

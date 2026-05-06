@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
-import { AccountService } from '../_services/account.service';
 
-@Component({ templateUrl: 'home.component.html' })
+import { AccountService } from '@app/_services';
+
+@Component({ templateUrl: './home.component.html', standalone: false })
 export class HomeComponent {
-    account: any;
+    constructor(private accountService: AccountService) { }
 
-    constructor(private accountService: AccountService) {
-        this.account = this.accountService.accountValue;
+    get account() {
+        return this.accountService.accountValue;
+    }
+
+    get fullName() {
+        const account = this.account;
+        return account ? `${account.firstName || ''} ${account.lastName || ''}`.trim() : '';
     }
 }

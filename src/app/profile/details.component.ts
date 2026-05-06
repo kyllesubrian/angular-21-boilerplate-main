@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { AccountService } from '../_services/account.service';
 
-@Component({
-    selector: 'app-profile-details',
-    templateUrl: './details.component.html'
-})
+import { AccountService } from '@app/_services';
+
+@Component({ templateUrl: 'details.component.html', standalone: false })
 export class DetailsComponent {
-    constructor(public accountService: AccountService) { }
+    constructor(private accountService: AccountService) { }
+
+    get account() {
+        return this.accountService.accountValue;
+    }
 }

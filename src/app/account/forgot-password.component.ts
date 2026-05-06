@@ -1,47 +1,48 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
-import { AccountService } from '../_services/account.service';
-import { AlertService } from '../_services/alert.service';
+import { first, finalize } from 'rxjs/operators';
 
-@Component({
-    selector: 'app-forgot-password',
-    templateUrl: './forgot-password.component.html'
-})
-export class ForgotPasswordComponent {
-    form: FormGroup;
-    loading = false;
-    submitted = false;
+import { AccountService, AlertService } from '@app/_services';
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private accountService: AccountService,
-        private alertService: AlertService
-    ) {
-        this.form = this.formBuilder.group({
-            email: ['', [Validators.required, Validators.email]]
-        });
-    }
+@Component({ templateUrl: 'forgot-password.component.html', standalone: false })
+    export class ForgotPasswordComponent implements OnInit {
+        form !: FormGroup;
+        loading = false;
+        submitted = false;
 
-    get f() { return this.form.controls; }
+        constructor(
+            private formBuilder: FormBuilder,
+            private accountService: AccountService,
+            private alertService: AlertService
+        ) { }
 
-    onSubmit() {
-        this.submitted = true;
-        this.alertService.clear();
-        if (this.form.invalid) return;
-        this.loading = true;
-        
-        this.accountService.forgotPassword(this.f['email'].value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Please check your email for password reset instructions');
-                    this.loading = false;
-                },
-                error: (error) => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
+        ngOnInit() {
+            this.form = this.formBuilder.group({
+                email: ['', [Validators.required, Validators.email]]
             });
+        }
+
+        // convenience getter for easy access to form fields
+        get f() { return this.form.controls; }
+
+        onSubmit() {
+            this.submitted = true;
+
+            // reset alerts on submit
+            this.alertService.clear();
+
+            // stop here if form is invalid
+            if (this.form.invalid) {
+                return;
+            }
+
+            this.loading = true;
+            this.accountService.forgotPassword(this.f.email.value)
+                .pipe(first())
+                .pipe(finalize(() => this.loading = false))
+                .subscribe({
+                    next: () => this.alertService.success('Please check your email for password reset instructions'),
+                    error: error => this.alertService.error(error)
+                });
     }
 }

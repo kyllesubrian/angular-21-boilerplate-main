@@ -1,19 +1,14 @@
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">Welcome {{ account?.firstName }}!</h3>
-        </div>
-        <div class="card-body">
-            <p class="lead">You are logged in with Angular 21 Boilerplate!</p>
-            <p>This is a complete authentication system with:</p>
-            <ul>
-                <li>Email Sign Up & Verification</li>
-                <li>JWT Authentication with Refresh Tokens</li>
-                <li>Role-Based Authorization (Admin & User)</li>
-                <li>Forgot Password & Reset Password</li>
-                <li>Profile Management</li>
-                <li>Admin Section</li>
-            </ul>
+<div class="page-hero py-5">
+    <div class="container">
+        <div class="hero-card p-5 text-center">
+            <h1 class="display-5 mb-3">Hi {{ fullName }}</h1>
+            <p class="lead mb-4">You are logged in as {{ account?.email }}</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap mb-4">
+                <a routerLink="/profile" class="btn btn-outline-primary">View Profile</a>
+                <a routerLink="/admin" class="btn btn-primary">Admin Panel</a>
+            </div>
+            <p class="text-muted mb-1">Registered user: {{ fullName }}</p>
+            <p class="text-muted mb-0">Welcome to your dashboard</p>
         </div>
     </div>
 </div>

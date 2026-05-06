@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+
 import { LayoutComponent } from './layout.component';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
@@ -9,18 +10,22 @@ import { ResetPasswordComponent } from './reset-password.component';
 
 const routes: Routes = [
     {
-        path: '',
-        component: LayoutComponent,
+        path: '', component: LayoutComponent,
         children: [
+            { path: '', redirectTo: 'login', pathMatch: 'full' },
             { path: 'login', component: LoginComponent },
             { path: 'register', component: RegisterComponent },
             { path: 'verify-email', component: VerifyEmailComponent },
             { path: 'forgot-password', component: ForgotPasswordComponent },
-            { path: 'reset-password', component: ResetPasswordComponent },
-            { path: '', redirectTo: 'login', pathMatch: 'full' }
+            { path: 'reset-password', component: ResetPasswordComponent }
+
         ]
     }
 ];
 
-@NgModule({ imports: [RouterModule.forChild(routes)], exports: [RouterModule] })
+@NgModule({
+    imports: [RouterModule.forChild(routes) ],
+    exports: [RouterModule]
+})
+
 export class AccountRoutingModule { }
