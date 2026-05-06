@@ -1,0 +1,34 @@
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Profile Details</h4>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-3 fw-bold">Name:</div>
+            <div class="col-md-9">{{ account?.firstName }} {{ account?.lastName }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3 fw-bold">Email:</div>
+            <div class="col-md-9">{{ account?.email }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3 fw-bold">Title:</div>
+            <div class="col-md-9">{{ account?.title || 'Not specified' }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3 fw-bold">Role:</div>
+            <div class="col-md-9">
+                <span class="badge" [ngClass]="account?.role === 'Admin' ? 'bg-primary' : 'bg-secondary'">
+                    {{ account?.role }}
+                </span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3 fw-bold">Email Verified:</div>
+            <div class="col-md-9">
+                <i class="bi" [ngClass]="account?.isVerified ? 'bi-check-circle-fill text-success' : 'bi-x-circle-fill text-danger'"></i>
+                {{ account?.isVerified ? 'Yes' : 'No' }}
+            </div>
+        </div>
+    </div>
+</div>
