@@ -1,80 +1,38 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { finalize, first } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { AccountService } from '@app/_services';
+import { Account } from '@app/_models';
 
-import { AccountService, AlertService } from '@app/_services';
-
-@Component({ templateUrl: 'list.component.html', standalone: false })
-export class ListComponent implements OnInit, OnDestroy {
-    accounts: any[] = [];
+@Component({
+    standalone: false,
+    templateUrl: 'list.component.html'
+})
+export class ListComponent implements OnInit {
+    accounts: Account[] = [];
     Loading = false;
 
-    private loadTimeoutId?: number;
-
-    constructor(
-        private accountService: AccountService,
-        private alertService: AlertService,
-        private cdr: ChangeDetectorRef
-    ){ }
+    constructor(private accountService: AccountService) { }
 
     ngOnInit() {
         this.Loading = true;
-        this.cdr.detectChanges();
-
-        this.loadTimeoutId = window. setTimeout (() => {
-            if (this.Loading) {
-                this.Loading = false;
-                this.accounts = [];
-                this.alertService.error('Request timed out');
-                this.cdr.detectChanges();
-            }
-
-        }, 10000);
-
-        this.accountService.getAlL()
-            .pipe(
-                first(),
-                finalize(() => {
-                    this.Loading = false;
-                    if (this.loadTimeoutId) {
-                        window.clearTimeout(this. loadTimeoutId);
-                        this.loadTimeoutId = undefined;
-                    }
-                    this.cdr.detectChanges();
-                })
-            )
-
+        this.accountService.getAll()
             .subscribe({
                 next: accounts => {
                     this.accounts = accounts;
-                    this.cdr.detectChanges();
+                    this.Loading = false;
                 },
-                error: error => {
-                    this.alertService.error(error);
-                    this.accounts = [];
-                    this.cdr.detectChanges();
+                error: () => {
+                    this.Loading = false;
                 }
             });
     }
 
-    ngOnDestroy() {
-        if (this.loadTimeoutId) {
-            window.clearTimeout(this.loadTimeoutId);
-            this.loadTimeoutId = undefined;
-        }
-    }
-    
     deleteAccount(id: string) {
         const account = this.accounts.find(x => x.id === id);
         if (!account) return;
-
-        account.isDeleting = true;
-        this.cdr.detectChanges();
-
+        (account as any).isDeleting = true;
         this.accountService.delete(id)
-            .pipe(first())
             .subscribe(() => {
                 this.accounts = this.accounts.filter(x => x.id !== id);
-                this.cdr.detectChanges();
             });
     }
 }

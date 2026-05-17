@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs' ;
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, finalize } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { Account } from '@app/_models';
 
-const baseUrl = `${environment.apiUrl}/accounts` ;
+const baseUrl = `${environment.apiUrl}/accounts`;
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -35,7 +35,7 @@ export class AccountService {
             }));
     }
 
-    Logout() {
+    logout() {
         this.http.post<any>(`${baseUrl}/revoke-token`, {}, { withCredentials: true }).subscribe();
         this.stopRefreshTokenTimer();
         this.accountSubject.next(null);
@@ -53,7 +53,6 @@ export class AccountService {
 
     register(account: Account) {
         return this.http.post(`${baseUrl}/register`, account);
-
     }
 
     verifyEmail(token: string) {
@@ -72,7 +71,7 @@ export class AccountService {
         return this.http.post(`${baseUrl}/reset-password`, { token, password, confirmPassword });
     }
 
-    getAlL() {
+    getAll() {
         return this.http.get<Account[]>(baseUrl);
     }
 
@@ -87,9 +86,7 @@ export class AccountService {
     update(id: string, params: any) {
         return this.http.put(`${baseUrl}/${id}`, params)
             .pipe(map((account: any) => {
-                // update the current account if it was updated
                 if (account.id === this.accountValue?.id) {
-                    // publish updated account to subscribers
                     account = { ...this.accountValue, ...account };
                     this.accountSubject.next(account);
                 }
@@ -100,28 +97,22 @@ export class AccountService {
     delete(id: string) {
         return this.http.delete(`${baseUrl}/${id}`)
             .pipe(finalize(() => {
-                // auto logout if the logged in account was deleted
                 if (id === this.accountValue?.id)
-                this.Logout();
+                    this.logout();
             }));
     }
-
-    // helper methods
 
     private refreshTokenTimeout?: any;
 
     private startRefreshTokenTimer() {
-        // parse json object from base64 encoded jwt token
-        const jwtBase64 = this.accountValue !.jwtToken !.split('.') [1];
+        const jwtBase64 = this.accountValue!.jwtToken!.split('.')[1];
         const jwtToken = JSON.parse(atob(jwtBase64));
-
-        // set a timeout to refresh the token a minute before it expires
         const expires = new Date(jwtToken.exp * 1000);
-        const timeout = expires.getTime() - Date.now() - (60* 1000);
+        const timeout = expires.getTime() - Date.now() - (60 * 1000);
         this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeout);
     }
 
     private stopRefreshTokenTimer() {
-        clearTimeout (this.refreshTokenTimeout);
+        clearTimeout(this.refreshTokenTimeout);
     }
 }

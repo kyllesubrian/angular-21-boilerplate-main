@@ -35,12 +35,10 @@ export class AddEditComponent implements OnInit, OnDestroy {
             lastName: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
             role: ['', Validators.required],
-            // password only required in add mode
-            password: ['', [Validators.minLength(6), ... (!this.id ? [Validators.required] : [])]],
+            password: ['', [Validators.minLength(6), ...(!this.id ? [Validators.required] : [])]],
             confirmPassword: ['']
-        },  {
-
-            validator: MustMatch('password', 'confirmPassword')
+        }, {
+            validators: MustMatch('password', 'confirmPassword')
         });
 
         this.title = 'Create Account';
@@ -49,7 +47,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
             this.Loading = true;
             this.cdr.detectChanges();
 
-            this.loadTimeoutId = window.setTimeout( () => {
+            this.loadTimeoutId = window.setTimeout(() => {
                 if (this.Loading) {
                     this.Loading = false;
                     this.alertService.error('Request timed out');
@@ -60,16 +58,15 @@ export class AddEditComponent implements OnInit, OnDestroy {
             this.accountService.getById(this.id)
                 .pipe(
                     first(),
-                        finalize(() => {
-                            this.Loading = false;
-                            if (this.loadTimeoutId) {
-                                window.clearTimeout(this.loadTimeoutId);
-                                this.loadTimeoutId = undefined;
-                            }
-                            this.cdr.detectChanges();
-                        })
+                    finalize(() => {
+                        this.Loading = false;
+                        if (this.loadTimeoutId) {
+                            window.clearTimeout(this.loadTimeoutId);
+                            this.loadTimeoutId = undefined;
+                        }
+                        this.cdr.detectChanges();
+                    })
                 )
-
                 .subscribe({
                     next: x => {
                         this.form.patchValue(x);
@@ -84,38 +81,32 @@ export class AddEditComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        if (this. loadTimeoutId) {
+        if (this.loadTimeoutId) {
             window.clearTimeout(this.loadTimeoutId);
             this.loadTimeoutId = undefined;
         }
     }
 
-    // convenience getter for easy access to form fields
     get f() { return this.form.controls; }
 
     onSubmit() {
         this.submitted = true;
         this.cdr.detectChanges();
-
         this.alertService.clear();
 
-        if (this.form.invalid) {
-            return;
-        }
+        if (this.form.invalid) return;
 
         this.submitting = true;
         this.cdr.detectChanges();
 
-        // create or update account based on id param
         let saveAccount;
         let message: string;
         if (this.id) {
             saveAccount = () => this.accountService.update(this.id!, this.form.value);
             message = 'Account updated';
         } else {
-            saveAccount = () => this. accountService.create(this.form.value);
+            saveAccount = () => this.accountService.create(this.form.value);
             message = 'Account created';
-
         }
 
         saveAccount()

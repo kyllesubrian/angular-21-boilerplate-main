@@ -9,6 +9,7 @@ import { RegisterComponent } from './register.component';
 import { VerifyEmailComponent } from './verify-email.component';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import { ResetPasswordComponent } from './reset-password.component';
+import { AlertComponent } from '@app/_components/alert.component';
 
 @NgModule({
     imports: [
@@ -17,14 +18,14 @@ import { ResetPasswordComponent } from './reset-password.component';
         ReactiveFormsModule,
         AccountRoutingModule
     ],
-
     declarations: [
         LayoutComponent,
         LoginComponent,
         RegisterComponent,
         VerifyEmailComponent,
         ForgotPasswordComponent,
-        ResetPasswordComponent
+        ResetPasswordComponent,
+        AlertComponent
     ]
 })
 export class AccountModule { }

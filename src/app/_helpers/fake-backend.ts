@@ -110,14 +110,15 @@ let accounts: any[] = JSON. parse(localStorage.getItem(accountsKey)!) || [];
 
                     if (accounts.find(x => x.email === account.email)) {
                     // display email already registered "email" in alert
-                        setTimeout(() => {
-                            alertService.info(`
-                                <h4>Email Already Registered</h4>
-                                <p>Your email ${account.email} is already registered .< /p>
-                                <p>If you don't know your password please visit the <a href="${location.origin}/account/forgot-password">forgot password</a> page .< /p>
-                                <div><strong>NOTE :< /strong> The fake backend displayed this "email" so you can test without an api. A real backend would send a real email. </div>
-                            `, { autoClose: false });
-                        }, 1808);
+                        // Email Already Registered message - fix the broken HTML tags
+setTimeout(() => {
+    alertService.info(`
+        <h4>Email Already Registered</h4>
+        <p>Your email ${account.email} is already registered.</p>
+        <p>If you don't know your password please visit the <a href="${location.origin}/account/forgot-password">forgot password</a> page.</p>
+        <div><strong>NOTE:</strong> The fake backend displayed this "email" so you can test without an api. A real backend would send a real email.</div>
+    `, { autoClose: false });
+}, 1000);
 
                     // always return ok() response to prevent email enumeration
                     return ok();

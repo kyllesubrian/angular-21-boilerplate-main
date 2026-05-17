@@ -1,6 +1,10 @@
 ﻿<div class="register-box simple-register">
-  <h2>Register</h2>
-  <form (ngSubmit)="onSubmit()" class="register-form">
+  <div class="register-header">
+    <h2>Register</h2>
+    <p>Create your account and get started.</p>
+  </div>
+
+  <form class="register-form" (ngSubmit)="onSubmit()">
     <div class="form-row">
       <div class="form-field">
         <label>First Name</label>
@@ -27,8 +31,29 @@
       <input class="form-control" type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required>
     </div>
 
-    <button type="submit" class="btn-register">Register</button>
+    <div class="form-field form-check">
+      <input
+        type="checkbox"
+        id="acceptTerms"
+        [(ngModel)]="acceptTerms"
+        name="acceptTerms"
+        class="form-check-input"
+        [class.is-invalid]="submitted && !acceptTerms"
+      />
+      <label for="acceptTerms" class="form-check-label">
+        I accept the <a href="#">Terms and Conditions</a>
+      </label>
+      <div *ngIf="submitted && !acceptTerms" class="invalid-feedback d-block">
+        You must accept the Terms and Conditions
+      </div>
+    </div>
+
+    <button type="submit" class="btn-register" [disabled]="loading">
+      <span *ngIf="loading">Registering...</span>
+      <span *ngIf="!loading">Register</span>
+    </button>
   </form>
+
   <div class="links simple-links">
     <a routerLink="/account/login">Already have an account? Login</a>
   </div>

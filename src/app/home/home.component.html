@@ -1,14 +1,6 @@
-<div class="page-hero py-5">
-    <div class="container">
-        <div class="hero-card p-5 text-center">
-            <h1 class="display-5 mb-3">Hi {{ fullName }}</h1>
-            <p class="lead mb-4">You are logged in as {{ account?.email }}</p>
-            <div class="d-flex justify-content-center gap-3 flex-wrap mb-4">
-                <a routerLink="/profile" class="btn btn-outline-primary">View Profile</a>
-                <a routerLink="/admin" class="btn btn-primary">Admin Panel</a>
-            </div>
-            <p class="text-muted mb-1">Registered user: {{ fullName }}</p>
-            <p class="text-muted mb-0">Welcome to your dashboard</p>
-        </div>
-    </div>
+<div class="container py-5">
+  <div class="home-card">
+    <h1 class="home-greeting">Hi {{ fullName }}!</h1>
+    <p class="home-subtitle">You're logged in with Angular 21 & JWT!!</p>
+  </div>
 </div>
