@@ -12,6 +12,8 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { appInitializer } from './_helpers/app.initializer';
 import { AccountService } from './_services';
 import { APP_INITIALIZER } from '@angular/core';
+import { environment } from '@environments/environment';
+
 
 @NgModule({
   declarations: [
@@ -25,11 +27,13 @@ import { APP_INITIALIZER } from '@angular/core';
     FormsModule
   ],
   providers: [
-    { provide: APP_INITIALIZER, useFactory: appInitializer, deps: [AccountService], multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    fakeBackendProvider
-  ],
+  { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AccountService] },
+  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
+  ...(environment.production ? [] : [fakeBackendProvider])
+],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
