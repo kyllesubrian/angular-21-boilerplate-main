@@ -5,7 +5,7 @@
       <div class="navbar-nav ms-auto d-flex flex-row align-items-center gap-1">
         <a class="nav-link px-3" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
         <a class="nav-link px-3" routerLink="/profile" routerLinkActive="active">Profile</a>
-        <a class="nav-link px-3" routerLink="/admin" routerLinkActive="active">Admin</a>
+        <a class="nav-link px-3" routerLink="/admin" routerLinkActive="active" *ngIf="account?.role === Role.Admin">Admin</a>
         <a class="nav-logout px-3" (click)="logout()" style="cursor:pointer;">Logout</a>
       </div>
     </div>

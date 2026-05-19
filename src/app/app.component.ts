@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AccountService } from '@app/_services';
+import { Account } from '@app/_models';
+import { Role } from '@app/_models';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +12,8 @@ import { AccountService } from '@app/_services';
 })
 export class AppComponent {
   showNav = true;
+  account?: Account | null;
+  Role = Role;
 
   constructor(
     private router: Router,
@@ -19,6 +23,10 @@ export class AppComponent {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       this.showNav = !event.urlAfterRedirects.startsWith('/account');
+    });
+
+    this.accountService.account.subscribe(account => {
+      this.account = account;
     });
   }
 
