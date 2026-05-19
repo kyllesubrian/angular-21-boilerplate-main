@@ -1,16 +1,15 @@
 <div class="app-container">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark app-nav" *ngIf="showNav">
+  <nav class="navbar navbar-expand-lg navbar-dark app-nav" *ngIf="showNav">
     <div class="container">
       <a class="navbar-brand" routerLink="/">My App</a>
-      <div class="navbar-nav ms-auto d-flex flex-row gap-2">
-        <a class="nav-link" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-        <a class="nav-link" routerLink="/profile" routerLinkActive="active">Profile</a>
-        <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
-        <a class="nav-link" (click)="logout()" style="cursor:pointer;">Logout</a>
+      <div class="navbar-nav ms-auto d-flex flex-row align-items-center gap-1">
+        <a class="nav-link px-3" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        <a class="nav-link px-3" routerLink="/profile" routerLinkActive="active">Profile</a>
+        <a class="nav-link px-3" routerLink="/admin" routerLinkActive="active">Admin</a>
+        <a class="nav-logout px-3" (click)="logout()" style="cursor:pointer;">Logout</a>
       </div>
     </div>
   </nav>
-
   <main class="page-content">
     <router-outlet></router-outlet>
   </main>

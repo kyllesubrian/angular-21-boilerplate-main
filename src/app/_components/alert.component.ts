@@ -72,6 +72,15 @@ export class AlertComponent implements OnInit, OnDestroy {
         }
     }
 
+    handleClick(event: MouseEvent) {
+        const target = event.target as HTMLElement;
+        if (target.tagName === 'A') {
+            event.preventDefault();
+            const href = (target as HTMLAnchorElement).href;
+            window.location.href = href;
+        }
+    }
+
     cssClasses(alert: Alert) {
         if (!alert) return;
 

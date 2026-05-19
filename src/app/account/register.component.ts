@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService, AlertService } from '@app/_services';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
@@ -46,7 +47,7 @@ export class RegisterComponent {
       password: this.password,
       confirmPassword: this.confirmPassword,
       acceptTerms: this.acceptTerms
-    } as any).subscribe({
+    } as any).pipe(first()).subscribe({
       next: () => {
         this.alertService.success('Registration successful! Please check your email to verify your account.', { keepAfterRouteChange: true });
         this.router.navigate(['/account/login']);

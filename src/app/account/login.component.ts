@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AccountService } from '@app/_services';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AccountService, AlertService } from '@app/_services';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -10,23 +11,34 @@ import { AccountService } from '@app/_services';
 export class LoginComponent {
   email = '';
   password = '';
+  loading = false;
 
   constructor(
     private router: Router,
-    private accountService: AccountService
+    private route: ActivatedRoute,
+    private accountService: AccountService,
+    private alertService: AlertService
   ) {}
 
   onSubmit() {
+    this.alertService.clear();
+
     if (!this.email || !this.password) {
-      alert('Please enter email and password');
+      this.alertService.error('Please enter email and password');
       return;
     }
 
-    this.accountService.login(this.email, this.password).subscribe({
-      next: () => this.router.navigate(['/home']),
-      error: error => {
-        alert(error?.error?.message || 'Login failed. Please try again.');
-      }
-    });
+    this.loading = true;
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+
+    this.accountService.login(this.email, this.password)
+      .pipe(first())
+      .subscribe({
+        next: () => this.router.navigateByUrl(returnUrl),
+        error: err => {
+          this.alertService.error(err?.error?.message || 'Login failed. Please try again.');
+          this.loading = false;
+        }
+      });
   }
 }
