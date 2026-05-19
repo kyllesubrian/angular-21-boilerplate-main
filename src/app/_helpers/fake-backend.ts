@@ -334,8 +334,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         function generateJwtToken(account: any) {
+            // set to 999 days so it never expires during testing
             const tokenPayload = {
-                exp: Math.round(new Date(Date.now() + 24*60*60*1000).getTime() / 1000),
+                exp: Math.round(new Date(Date.now() + 999*24*60*60*1000).getTime() / 1000),
                 id: account.id
             }
             return `fake-jwt-token.${btoa(JSON.stringify(tokenPayload))}`;
@@ -343,7 +344,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function generateRefreshToken() {
             const token = new Date().getTime().toString();
-            const expires = new Date(Date.now() + 7*24*60*60*1000).toUTCString();
+            // set to 999 days so it never expires during testing
+            const expires = new Date(Date.now() + 999*24*60*60*1000).toUTCString();
             document.cookie = `fakeRefreshToken=${token}; expires=${expires}; path=/`;
             return token;
         }
